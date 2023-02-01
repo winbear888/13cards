@@ -41,10 +41,7 @@ class Row:
 
   def __eq__(self, other):
     if self.__class__ is other.__class__:
-      if self.ranking == other.ranking and \
-      self.freq_lst == other.freq_lst: 
-        return True
-      return False
+      return self.ordered_row == other.ordered_row
     return NotImplemented
     
   def __lt__(self, other):

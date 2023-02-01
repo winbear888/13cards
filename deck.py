@@ -34,7 +34,9 @@ class Card:
       else:
         return self.suite < other.suite 
     return NotImplemented
-
+  
+  def __hash__(self) -> int:
+    return self.suite.value * 100 + self.number
 
 class Deck:
   def __gen_deck():

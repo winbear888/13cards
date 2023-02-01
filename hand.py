@@ -57,6 +57,11 @@ class Hand:
     self.rows[RowNumber.THREE] = Row(row_three, RowNumber.THREE)
     if self.rows[RowNumber.ONE] > self.rows[RowNumber.TWO] or self.rows[RowNumber.TWO] > self.rows[RowNumber.THREE]:
       raise Exception("The row below must be bigger than the row above.")
+  
+  def __eq__(self, other):
+    if self.__class__ == other.__class__:
+      return self.rows[RowNumber.ONE] == other.rows[RowNumber.ONE] and self.rows[RowNumber.TWO] == other.rows[RowNumber.TWO] and self.rows[RowNumber.THREE] == other.rows[RowNumber.THREE]
+    raise NotImplemented
 
   def __repr__(self):
     return f"""

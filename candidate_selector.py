@@ -1,6 +1,6 @@
-from deck import Card
+from deck import Card, Suite
 from hand import Hand, HandStrategyEnum, HandStrategyObject
-from row import RowStrategy
+from row import RowStrategy, RowNumber, Row
 
 class CandidateSelector:
   def __init__(self, cards : list[Card]):
@@ -32,8 +32,8 @@ class CandidateSelector:
     row_strategies = hand_strategy_enum_object.row_strategies
     row_orders = hand_strategy_enum_object.row_orders
     for i in range(3):
-      rowNum = row_orders[i]
-      row_strategy = row_strategies[i]  
+      rowNum : RowNumber = row_orders[i]
+      row_strategy : RowStrategy = row_strategies[i]  
       if row_strategy == RowStrategy.MAX:
         if new.rows[rowNum] > current.rows[rowNum]:
           return new
@@ -46,6 +46,14 @@ class CandidateSelector:
           return current
       else:
         raise Exception("row_strategy invalid")
+    
+    for i in range(1, -1, -1):
+      rowNum : RowNumber = row_orders[i]
+      if new.rows[rowNum] > current.rows[rowNum]:
+        return new
+      elif new.rows[rowNum] < current.rows[rowNum]:
+        return current
+
     return current
   
   def __repr__(self) -> str:
