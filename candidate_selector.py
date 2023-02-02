@@ -11,6 +11,7 @@ class CandidateSelector:
       for j in range(i + 1, 12):
         for k in range(j + 1, 13):
           self.find_best([cards[i], cards[j], cards[k]], cards[:i] + cards[i + 1:j] + cards[j+1:k] + cards[k+1:])
+    self.filter_unique_strategies()
   
   def find_best(self, row_1 : list[Card], remainders : list[Card]):
     for idx_1 in range(6):
@@ -27,6 +28,18 @@ class CandidateSelector:
               except Exception as e:
                 continue
   
+  def filter_unique_strategies(self):
+    self.unique_strategies = []
+    hands = list(self.strategies.values())
+    for i in range(len(hands)):
+      repeated = False
+      for j in range(i + 1, len(hands)):
+        if hands[i] == hands[j]:
+          repeated = True
+          break
+      if not repeated:
+        self.unique_strategies.append(hands[i])
+
   def __bigger_hand(current : Hand, new : Hand, hand_strategy_enum: HandStrategyEnum):
     hand_strategy_enum_object = HandStrategyObject(hand_strategy_enum)
     row_strategies = hand_strategy_enum_object.row_strategies

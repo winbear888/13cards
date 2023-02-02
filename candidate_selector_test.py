@@ -10,7 +10,6 @@ class HandTest(unittest.TestCase):
       Card(Suite.CLUBS, 8), Card(Suite.DIAMONDS, 8),
       Card(Suite.HEARTS, 3), Card(Suite.CLUBS, 4), Card(Suite.HEARTS, 9), Card(Suite.CLUBS, 10)]
     cs = CandidateSelector(cards)
-    print(cs)
 
 if __name__ == '__main__':
     unittest.main()

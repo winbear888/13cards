@@ -24,10 +24,10 @@ class GameTest(unittest.TestCase):
     [Card(Suite.SPADES, 13), Card(Suite.DIAMONDS, 13), Card(Suite.HEARTS, 8), Card(Suite.DIAMONDS, 7), Card(Suite.HEARTS, 6)],[Card(Suite.HEARTS, 14), Card(Suite.DIAMONDS, 14), Card(Suite.CLUBS, 14), Card(Suite.HEARTS, 10), Card(Suite.DIAMONDS, 10)])
     hand_info_4 = HandInfo(hand4)
     game.round([hand_info_1, hand_info_2, hand_info_3, hand_info_4])
-    self.assertEqual(hand_info_1.points_history, [-1])
-    self.assertEqual(hand_info_2.points_history, [-8])
-    self.assertEqual(hand_info_3.points_history, [8])
-    self.assertEqual(hand_info_4.points_history, [1])
+    self.assertEqual(hand_info_1.avg, -1)
+    self.assertEqual(hand_info_2.avg, -8)
+    self.assertEqual(hand_info_3.avg, 8)
+    self.assertEqual(hand_info_4.avg, 1)
   
   def test_beat_all_round(self):
     hand1 = Hand([Card(Suite.CLUBS, 10), Card(Suite.HEARTS, 9), Card(Suite.CLUBS, 4)],
@@ -50,10 +50,10 @@ class GameTest(unittest.TestCase):
     [Card(Suite.HEARTS, 14), Card(Suite.DIAMONDS, 14), Card(Suite.CLUBS, 14), Card(Suite.HEARTS, 10), Card(Suite.DIAMONDS, 10)])
     hand_info_4 = HandInfo(hand4)
     game.round([hand_info_1, hand_info_2, hand_info_3, hand_info_4])
-    self.assertEqual(hand_info_1.points_history, [-10])
-    self.assertEqual(hand_info_2.points_history, [-14])
-    self.assertEqual(hand_info_3.points_history, [-12])
-    self.assertEqual(hand_info_4.points_history, [36])
+    self.assertEqual(hand_info_1.avg, -10)
+    self.assertEqual(hand_info_2.avg, -14)
+    self.assertEqual(hand_info_3.avg, -12)
+    self.assertEqual(hand_info_4.avg, 36)
 
 
 if __name__ == '__main__':

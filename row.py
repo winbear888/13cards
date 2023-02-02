@@ -5,10 +5,6 @@ class RowStrategy(Enum):
   MAX = 1
   MAX_RANK = 2
 
-class RowState(Enum):
-  INCOMPLETE = 1
-  COMPLETE = 2
-
 class RowNumber(Enum):
   ONE = 1
   TWO = 2
@@ -34,10 +30,8 @@ class Row:
     self.row_num = row_num
     self.raw_row = raw_row
     if (row_num is RowNumber.ONE and len(raw_row) < 3) or ((row_num is not RowNumber.ONE) and len(raw_row) < 5):
-      self.state = RowState.INCOMPLETE
-    else:
-      self.state = RowState.COMPLETE
-      self.__process_row()
+      raise Exception("Row Incomplete")
+    self.__process_row()
 
   def __eq__(self, other):
     if self.__class__ is other.__class__:
@@ -52,17 +46,12 @@ class Row:
     return NotImplemented
 
   def __repr__(self) -> str:
-    if self.state == RowState.COMPLETE:
-      return f"Row: ranking = {self.ranking}, freq_lst = {self.freq_lst}, points = {self.points}, row_num = {self.row_num}, ordered_row = {self.ordered_row}"
-    else:
-      return f"Incomplete Row: raw_row = {self.raw_row}, row_num = {self.row_num}"
-  
+    return f"Row: ranking = {self.ranking}, freq_lst = {self.freq_lst}, points = {self.points}, row_num = {self.row_num}, ordered_row = {self.ordered_row}"
+    
   def settle(self, other):
     if self.__class__ is other.__class__:
       if self.row_num != other.row_num:
         raise Exception("Can only settle the same row.")
-      if self.state == RowState.INCOMPLETE or other.state == RowState.INCOMPLETE:
-        raise Exception("Row Incomplete")
       if self > other:
         return self.points
       elif self < other:

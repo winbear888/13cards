@@ -96,11 +96,20 @@ class HandInfo:
   def __init__(self, hand: Hand):
     self.hand = hand
     self.points_history = []
+    self.sum = 0
+    self.len = 0
+    self.avg = 0
+  
+  def add_result(self, score: int):
+    self.points_history.append(score)
+    self.sum += score
+    self.len += 1
+    self.avg = self.sum / self.len
 
   def __repr__(self) -> str:
     return f"""
 >>> Hand Info >>>
 hand = {self.hand}
-points_history = {self.points_history}
+points average = {self.avg}
 <<< Hand Info <<<
 """
