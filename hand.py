@@ -85,8 +85,7 @@ class Hand:
 * row_one: {self.rows[RowNumber.ONE]}
 * row_two: {self.rows[RowNumber.TWO]}
 * row_three: {self.rows[RowNumber.THREE]}
--- End Hand --
-"""
+-- End Hand --"""
 
   def beat_all(self, other):
     if self.__class__ == other.__class__:
@@ -129,3 +128,12 @@ hand = {self.hand}
 points average = {self.avg}
 <<< Hand Info <<<
 """
+
+def is_dragon(cards : list[Card]):
+  if len(cards) != 13:
+    return False
+  cards.sort()
+  for i in range(12):
+    if cards[i].number + 1 != cards[i + 1].number:
+      return False
+  return True

@@ -1,28 +1,33 @@
-from deck import Card
-from hand import HandInfo
+from deck import Card, RemainingDeck
+from hand import HandInfo, is_dragon
 from candidate_selector import CandidateSelector
 from game import tournament
 
-class CandidateRanker:
-  def __init__(self, cards_1 : list[Card], cards_2 : list[Card], cards_3 : list[Card], cards_4 : list[Card]):
-    cs_1 = CandidateSelector(cards_1)
-    candidates_1 = [HandInfo(hand) for hand in cs_1.unique_strategies]
-    cs_2 = CandidateSelector(cards_2)
-    candidates_2 = [HandInfo(hand) for hand in cs_2.unique_strategies]
-    cs_3 = CandidateSelector(cards_3)
-    candidates_3 = [HandInfo(hand) for hand in cs_3.unique_strategies]
-    cs_4 = CandidateSelector(cards_4)
-    candidates_4 = [HandInfo(hand) for hand in cs_4.unique_strategies]
+# Returns the top 10 best arrangements or less. Does not rank if the cards contain a dragon.
+def ranker(target_cards : list[Card]):
+  if is_dragon(target_cards):
+    return "IS_DRAGON"
+  target_cs = CandidateSelector(target_cards)
+  target_strat = [HandInfo(hand) for hand in target_cs.unique_strategies]
+  num_sim = 3
+  for _ in range(num_sim):
+    # TODO: while has Dragon
+    has_dragon = True
+    while has_dragon:
+      rd = RemainingDeck(target_cards)
+      rd.shuffle()
+      cards_2 = rd.remainder_deck_shuffled[:13]
+      cards_3 = rd.remainder_deck_shuffled[13:26]
+      cards_4 = rd.remainder_deck_shuffled[26:]
+      has_dragon = is_dragon(cards_2) or is_dragon(cards_3) or is_dragon(cards_4)
 
-    tournament(candidates_1, candidates_2, candidates_3, candidates_4)
-    
-    candidates_1.sort(key=lambda x: x.avg, reverse=True)
-    candidates_2.sort(key=lambda x: x.avg, reverse=True)
-    candidates_3.sort(key=lambda x: x.avg, reverse=True)
-    candidates_4.sort(key=lambda x: x.avg, reverse=True)
-
-    self.ranked_1 = candidates_1
-    self.ranked_2 = candidates_2
-    self.ranked_3 = candidates_3
-    self.ranked_4 = candidates_4
-
+    hand_2_cs = CandidateSelector(cards_2)
+    hand_2_strat = [HandInfo(hand) for hand in hand_2_cs.unique_strategies]
+    hand_3_cs = CandidateSelector(cards_3)
+    hand_3_strat = [HandInfo(hand) for hand in hand_3_cs.unique_strategies]
+    hand_4_cs = CandidateSelector(cards_4)
+    hand_4_strat = [HandInfo(hand) for hand in hand_4_cs.unique_strategies]
+    tournament(target_strat, hand_2_strat, hand_3_strat, hand_4_strat)
+  
+  target_strat.sort(key=lambda x: x.avg, reverse=True)
+  return target_strat if len(target_strat) <= 10 else target_strat[:10]

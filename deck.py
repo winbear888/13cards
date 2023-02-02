@@ -60,8 +60,10 @@ class RemainingDeck:
     cards_set = set(cards)
     remainder_set = deck_set.difference(cards_set)
     self.remainder_deck = list(remainder_set)
+    self.remainder_deck_shuffled = None
 
   def shuffle(self, seed: int = None):
+    self.remainder_deck_shuffled = self.remainder_deck[:]
     if seed and type(seed) == int:
       random.seed(seed)
-    random.shuffle(self.remainder_deck)
+    random.shuffle(self.remainder_deck_shuffled)
