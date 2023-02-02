@@ -19,5 +19,22 @@ class HandTest(unittest.TestCase):
     self.assertEqual(rank_three_two.row_orders, [RowNumber.THREE, RowNumber.TWO, RowNumber.ONE])
     self.assertEqual(rank_three_two.row_strategies, [RowStrategy.MAX_RANK, RowStrategy.MAX_RANK, RowStrategy.MAX])
 
+  def test_settle(self):
+    hand1 = Hand([Card(Suite.CLUBS, 10), Card(Suite.HEARTS, 9), Card(Suite.CLUBS, 4)],
+    [Card(Suite.CLUBS, 8), Card(Suite.DIAMONDS, 8), Card(Suite.HEARTS, 5), Card(Suite.SPADES, 5), Card(Suite.HEARTS, 3)],
+    [Card(Suite.DIAMONDS, 11), Card(Suite.HEARTS, 11), Card(Suite.SPADES, 11), Card(Suite.DIAMONDS, 2), Card(Suite.SPADES, 2)])
+    hand2 = Hand([Card(Suite.HEARTS, 4), Card(Suite.SPADES, 4), Card(Suite.SPADES, 14)],
+    [Card(Suite.SPADES, 12), Card(Suite.DIAMONDS, 12), Card(Suite.HEARTS, 13), Card(Suite.DIAMONDS, 10), Card(Suite.DIAMONDS, 6)],
+    [Card(Suite.DIAMONDS, 5), Card(Suite.CLUBS, 6), Card(Suite.HEARTS, 7), Card(Suite.SPADES, 8), Card(Suite.DIAMONDS, 9)])
+    hand3 = Hand([Card(Suite.SPADES, 9), Card(Suite.CLUBS, 9), Card(Suite.SPADES, 7)],
+    [Card(Suite.HEARTS, 2), Card(Suite.CLUBS, 3), Card(Suite.DIAMONDS, 4), Card(Suite.CLUBS, 5), Card(Suite.SPADES, 6)],
+    [Card(Suite.CLUBS, 2), Card(Suite.CLUBS, 7), Card(Suite.CLUBS, 11), Card(Suite.CLUBS, 12), Card(Suite.CLUBS, 13)])
+
+    self.assertEqual(hand1.settle(hand2), 1)
+    self.assertEqual(hand2.settle(hand1), -1)
+    
+    self.assertEqual(hand2.settle(hand3), -6)
+    self.assertEqual(hand3.settle(hand2), 6)
+
 if __name__ == '__main__':
     unittest.main()

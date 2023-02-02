@@ -44,7 +44,7 @@ class HandStrategyObject:
       raise Exception("HandStrategyEnum Error")
 
 class Hand:
-  def __init__(self, row_one: set[Card], row_two: set[Card], row_three: set[Card]):
+  def __init__(self, row_one: list[Card], row_two: list[Card], row_three: list[Card]):
     if len(row_one) != 3:
       raise Exception("The row_one must contain than 3 cards.")
     if len(row_two) != 5:
@@ -70,4 +70,37 @@ class Hand:
 * row_two: {self.rows[RowNumber.TWO]}
 * row_three: {self.rows[RowNumber.THREE]}
 -- End Hand --
+"""
+
+  def beat_all(self, other):
+    if self.__class__ == other.__class__:
+      return self.rows[RowNumber.ONE] > other.rows[RowNumber.ONE] and self.rows[RowNumber.TWO] > other.rows[RowNumber.TWO] and self.rows[RowNumber.THREE] > other.rows[RowNumber.THREE]
+    return NotImplemented
+
+  def lose_all(self, other):
+    if self.__class__ == other.__class__:
+      return self.rows[RowNumber.ONE] < other.rows[RowNumber.ONE] and self.rows[RowNumber.TWO] < other.rows[RowNumber.TWO] and self.rows[RowNumber.THREE] < other.rows[RowNumber.THREE]
+    return NotImplemented
+
+
+  
+  def settle(self, other):
+    if self.__class__ == other.__class__:
+      score = 0
+      for row_num in RowNumber:
+        score += self.rows[row_num].settle(other.rows[row_num])
+      return score * 2 if self.beat_all(other) or self.lose_all(other) else score
+    return NotImplemented
+
+class HandInfo:
+  def __init__(self, hand: Hand):
+    self.hand = hand
+    self.points_history = []
+
+  def __repr__(self) -> str:
+    return f"""
+>>> Hand Info >>>
+hand = {self.hand}
+points_history = {self.points_history}
+<<< Hand Info <<<
 """

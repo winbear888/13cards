@@ -39,7 +39,7 @@ class Card:
     return self.suite.value * 100 + self.number
 
 class Deck:
-  def __gen_deck():
+  def gen_deck():
     deck = []
     for suite in Suite:
       for i in range(2,15):
@@ -47,9 +47,21 @@ class Deck:
     return deck
 
   def __init__(self):
-    self.deck = Deck.__gen_deck()
+    self.deck = Deck.gen_deck()
 
   def shuffle(self, seed: int = None):
     if seed and type(seed) == int:
       random.seed(seed)
     random.shuffle(self.deck)
+
+class RemainingDeck:
+  def __init__(self, cards : list[Card]):
+    deck_set = set(Deck.gen_deck())
+    cards_set = set(cards)
+    remainder_set = deck_set.difference(cards_set)
+    self.remainder_deck = list(remainder_set)
+
+  def shuffle(self, seed: int = None):
+    if seed and type(seed) == int:
+      random.seed(seed)
+    random.shuffle(self.remainder_deck)

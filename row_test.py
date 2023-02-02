@@ -28,7 +28,7 @@ class RowTest(unittest.TestCase):
     def test_straight_flush(self):
       diamonds_row = Row([Card(Suite.DIAMONDS, 2), Card(Suite.DIAMONDS, 3), Card(Suite.DIAMONDS, 4), Card(Suite.DIAMONDS, 5), Card(Suite.DIAMONDS, 6)], RowNumber.THREE)
       hearts_row = Row([Card(Suite.HEARTS, 2), Card(Suite.HEARTS, 3), Card(Suite.HEARTS, 4), Card(Suite.HEARTS, 5), Card(Suite.HEARTS, 6)], RowNumber.THREE)
-      self.assertEqual(diamonds_row, hearts_row)
+      self.assertEqual(diamonds_row.settle(hearts_row), 0)
 
       hearts_2_row = Row([Card(Suite.HEARTS, 3), Card(Suite.HEARTS, 4), Card(Suite.HEARTS, 5), Card(Suite.HEARTS, 6), Card(Suite.HEARTS, 7)], RowNumber.THREE)
       self.assertGreater(hearts_2_row, hearts_row)
