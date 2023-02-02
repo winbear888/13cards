@@ -3,18 +3,31 @@ from deck import Card
 from row import Row, RowNumber, RowStrategy
 
 class HandStrategyEnum(Enum):
-  MAX_ONE_TWO = 1
-  MAX_ONE_THREE = 2
-  MAX_TWO_ONE = 3
-  MAX_TWO_THREE = 4
-  MAX_THREE_ONE = 5
-  MAX_THREE_TWO = 6
-  RANK_ONE_TWO = 7
-  RANK_ONE_THREE = 8
-  RANK_TWO_ONE = 9
-  RANK_TWO_THREE = 10
-  RANK_THREE_ONE = 11
-  RANK_THREE_TWO = 12
+  MAX_MAX_ONE_TWO = 1
+  MAX_MAX_ONE_THREE = 2
+  MAX_MAX_TWO_ONE = 3
+  MAX_MAX_TWO_THREE = 4
+  MAX_MAX_THREE_ONE = 5
+  MAX_MAX_THREE_TWO = 6
+  RANK_MAX_ONE_TWO = 7
+  RANK_MAX_ONE_THREE = 8
+  RANK_MAX_TWO_ONE = 9
+  RANK_MAX_TWO_THREE = 10
+  RANK_MAX_THREE_ONE = 11
+  RANK_MAX_THREE_TWO = 12
+
+  MAX_RANK_ONE_TWO = 13
+  MAX_RANK_ONE_THREE = 14
+  MAX_RANK_TWO_ONE = 15
+  MAX_RANK_TWO_THREE = 16
+  MAX_RANK_THREE_ONE = 17
+  MAX_RANK_THREE_TWO = 18
+  RANK_RANK_ONE_TWO = 19
+  RANK_RANK_ONE_THREE = 20
+  RANK_RANK_TWO_ONE = 21
+  RANK_RANK_TWO_THREE = 22
+  RANK_RANK_THREE_ONE = 23
+  RANK_RANK_THREE_TWO = 24
 
 class HandStrategyObject:
   def __init__(self, hand_strategy_enum : HandStrategyEnum):
@@ -23,11 +36,14 @@ class HandStrategyObject:
     self.row_strategies = self.__get_row_strategies()
   
   def __get_row_strategies(self):
-    return [RowStrategy.MAX_RANK, RowStrategy.MAX_RANK, RowStrategy.MAX] if self.hand_strategy_enum.value > 6 else [RowStrategy.MAX_RANK, RowStrategy.MAX, RowStrategy.MAX]
+    if self.hand_strategy_enum.value > 12:
+      return [RowStrategy.MAX_RANK, RowStrategy.MAX_RANK, RowStrategy.MAX_RANK] if self.hand_strategy_enum.value > 19 else [RowStrategy.MAX_RANK, RowStrategy.MAX, RowStrategy.MAX_RANK]
+    else:
+      return [RowStrategy.MAX_RANK, RowStrategy.MAX_RANK, RowStrategy.MAX] if self.hand_strategy_enum.value > 6 else [RowStrategy.MAX_RANK, RowStrategy.MAX, RowStrategy.MAX]
   
   def __get_row_orders(self):
     name = self.hand_strategy_enum.name
-    parsed_name = "_".join(name.split("_")[1:])
+    parsed_name = "_".join(name.split("_")[2:])
     if parsed_name == "ONE_TWO":
       return [RowNumber.ONE, RowNumber.TWO, RowNumber.THREE]
     elif parsed_name == "ONE_THREE":
