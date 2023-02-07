@@ -18,7 +18,7 @@ class Card:
     self.suite = suite
     self.number = number
   def __repr__(self):
-    return f"Card({self.suite}, {self.number})"
+    return card_to_string(self)
   
   def __eq__(self, other: object) -> bool:
     if self.__class__ is other.__class__:
@@ -37,6 +37,18 @@ class Card:
   
   def __hash__(self) -> int:
     return self.suite.value * 100 + self.number
+
+def string_to_card(card_str: str) -> Card:
+  char_to_suite = {"C": Suite.CLUBS, "D": Suite.DIAMONDS, "H": Suite.HEARTS, "S": Suite.SPADES}
+  suite_str = card_str[:1]
+  suite = char_to_suite[suite_str]
+  number = int(card_str[1:])
+  return Card(suite, number)
+
+def card_to_string(card: Card) -> str:
+  suite_to_char = {Suite.CLUBS: "C", Suite.DIAMONDS: "D", Suite.HEARTS: "H", Suite.SPADES: "S"}
+  number = 14 if card.number == 1 else card.number
+  return suite_to_char[card.suite] + str(number)
 
 class Deck:
   def gen_deck():
