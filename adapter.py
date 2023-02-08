@@ -2,8 +2,7 @@ from deck import Card, string_to_card, card_to_string
 from hand import Hand, HandInfo
 from row import RowNumber
 
-def stringify_lst_to_card_lst(stringify_lst: str) -> list[Card]:
-  string_lst = stringify_lst.split(" ")
+def string_lst_to_card_lst(string_lst: str) -> list[Card]:
   return [string_to_card(card_str) for card_str in string_lst]
 
 def card_lst_to_stringify_lst(card_lst : list[Card]) -> str:
@@ -11,9 +10,9 @@ def card_lst_to_stringify_lst(card_lst : list[Card]) -> str:
   return " ".join(string_lst)
 
 def dict_to_hand(dict_hand : dict[str, str]) -> Hand:
-  row_1 = stringify_lst_to_card_lst(dict_hand["row_1"])
-  row_2 = stringify_lst_to_card_lst(dict_hand["row_2"])
-  row_3 = stringify_lst_to_card_lst(dict_hand["row_3"])
+  row_1 = string_lst_to_card_lst(dict_hand["row_1"])
+  row_2 = string_lst_to_card_lst(dict_hand["row_2"])
+  row_3 = string_lst_to_card_lst(dict_hand["row_3"])
   return Hand(row_1, row_2, row_3)
 
 def hand_info_to_dict(hand_info : HandInfo) -> dict:

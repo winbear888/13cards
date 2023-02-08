@@ -4,8 +4,10 @@ import adapter
 from candidate_ranker import ranker
 from deck import Card
 import hashlib
+from flask_cors import CORS #comment this on deployment
 
 app = Flask(__name__)
+CORS(app) #comment this on deployment
 
 # None, list(HandInfo), or 'IS_DRAGON'
 top_ten_dict = {}
@@ -13,7 +15,7 @@ top_ten_dict = {}
 @app.post('/candidates')
 def candidates_post():
   # data is a dict
-  card_lst = adapter.stringify_lst_to_card_lst(request.get_json()["cards"])
+  card_lst = adapter.string_lst_to_card_lst(request.get_json()["cards"])
   card_lst.sort()
   uid = gen_uid(card_lst)
   # Indicates that the processing has started
@@ -22,14 +24,14 @@ def candidates_post():
     top_ten_dict[uid] = None
     thread = threading.Thread(target=process_request, args=(card_lst,uid))
     thread.start()
-    msg = "Generating new candidates." 
+    msg = "POST: Generating new candidates." 
   else:
     if top_ten_dict[uid] == None:
-      msg = "Candidate generation in progress."
+      msg = "POST: Candidate generation in progress."
     else:
-      msg = "Candidates generated"
+      msg = "POST: Candidates generated. Call the GET endpoint to retreive the results."
       status_code = 201
-  response = jsonify({'message': msg, "uuid":uid})
+  response = jsonify({'message': msg, "uid":uid})
   response.status_code = status_code
   return response
 
@@ -49,15 +51,15 @@ def gen_uid(card_lst : list[Card]) -> int:
 
 @app.get('/candidates/<uid>')
 def candidates_get(uid):
-  msg = "Candidates have not been generated"
+  msg = "GET: Candidates have not been generated"
   has_candidates = False
   if uid in top_ten_dict:
     if top_ten_dict[uid] == None:
-      msg = "Cadidate generation in progress"
+      msg = "GET: Candidate generation in progress"
     elif top_ten_dict[uid] == "IS_DRAGON":
-      msg = "IS_DRAGON"
+      msg = "GET: IS_DRAGON"
     else:
-      msg = "Candidates Generated"
+      msg = "GET: Candidates Generated"
       has_candidates = True
   return jsonify({'message': msg, 'candidate_list': top_ten_dict[uid]}) if has_candidates else jsonify({'message': msg})
 
