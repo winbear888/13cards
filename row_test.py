@@ -1,7 +1,7 @@
 import unittest
 from row import Row, RowNumber
 from deck import Card, Suite
-
+from adapter import string_lst_to_card_lst
 
 class RowTest(unittest.TestCase):
     
@@ -146,6 +146,18 @@ class RowTest(unittest.TestCase):
       self.assertEqual(one_pair_row.settle(one_pair_row), 0)
       self.assertEqual(one_pair_row.settle(high_card_row), 1)
       self.assertEqual(high_card_row.settle(one_pair_row), -1)
+    
+    def test_settle_2(self):
+      a_row_one = Row(string_lst_to_card_lst(["S3", "H3", "D3"]), RowNumber.ONE)
+      a_row_two = Row(string_lst_to_card_lst(["S2", "H2", "D2", "S5", "H5"]), RowNumber.TWO)
+      a_row_three = Row(string_lst_to_card_lst(["S4", "H4", "D4", "S6", "H6"]), RowNumber.THREE)
+      
+      b_row_one = Row(string_lst_to_card_lst(["D4", "D3", "D2"]), RowNumber.ONE)
+      b_row_two = Row(string_lst_to_card_lst(["H6", "H5", "H4", "H3", "H2"]), RowNumber.TWO)
+      b_row_three = Row(string_lst_to_card_lst(["S6", "S5", "S4", "S3", "S2"]), RowNumber.THREE)
+      self.assertEqual(a_row_one.settle(b_row_one), 1)
+      self.assertEqual(a_row_two.settle(b_row_two), -6)
+      self.assertEqual(a_row_three.settle(b_row_three), -6)
 
 if __name__ == '__main__':
     unittest.main()

@@ -34,8 +34,21 @@ const DisplayCard = ({ name }) => {
     "H":  "❤️", 
     "D": "♦️"
   }
+  
+  let royalDictInv = {
+    "11": "J",
+    "12": "Q",
+    "13": "K",
+    "14": "A",
+  }
+
   const displayName = (name) => {
-    return name[1] + suiteDict[name[0]]
+    let suite = suiteDict[name[0]]
+    let num = name.slice(1)
+    if (num in royalDictInv) {
+      num = royalDictInv[num]
+    }
+    return num + suite
   }
   return (
     <div
@@ -144,17 +157,36 @@ const Deck = () => {
     setSelected([]);
   };
   const handleArrange = () => {
+    console.log(selected.length);
     if (selected.length != 13) {
       setMessage("13 cards must be selected")
       return
     }
-    const suiteDict = {
-      9824: "S",
-      9827: "C", 
-      10084: "H", 
-      9830: "D"
+
+    const transformCards = (cardStr) => {
+      // suiteDict[x.slice(-2).charCodeAt(0)] + x[0]
+      const suiteDict = {
+        9824: "S",
+        9827: "C", 
+        10084: "H", 
+        9830: "D"
+      }
+
+      let royalDict = {
+        "J": "11",
+        "Q": "12",
+        "K": "13",
+        "A": "14",
+      }
+      let suiteStr = suiteDict[cardStr.slice(-2).charCodeAt(0)];
+      let numStr = cardStr.slice(0,-2);
+      if (numStr in royalDict) {
+        numStr = royalDict[numStr]
+      }
+      return suiteStr + numStr
     }
-    let cardList = selected.map(x => suiteDict[x[1].charCodeAt(0)] + x[0])
+    let cardList = selected.map(x => transformCards(x))
+    console.log(cardList)
     axios.post("http://127.0.0.1:5000/candidates", {"cards": cardList})
          .then(response => {
           setMessage(response.data.message)
@@ -177,6 +209,7 @@ const Deck = () => {
           const data = reponse.data;
           setMessage(data["message"]);
           if ("candidate_list" in data) {
+            console.log(data["candidate_list"]);
             setCandidates(data["candidate_list"]);
           }
         }

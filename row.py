@@ -106,28 +106,49 @@ class Row:
         num_ace = freq
     points = 1
     if self.__is_straight_flush():
-      points = 6
-      if num_ace == 1:
+      if self.row_num is RowNumber.TWO:
+        points = 14
+      if self.row_num is RowNumber.THREE:
         points = 7
+      else:
+        raise Exception("straight flush can't be in the first row.")
       self.ranking = Ranking.STRAIGHT_FLUSH
     elif self.__is_four_kind():
-      if num_ace == 4:
-        points = 7
+      if self.row_num is RowNumber.TWO:
+        if num_ace == 4:
+          points = 14
+        else:
+          points = 12
+      if self.row_num is RowNumber.THREE:
+        if num_ace == 4:
+          points = 7
+        else:
+          points = 6
+      else:
+        raise Exception("straight flush can't be in the first row.")
       self.ranking = Ranking.FOUR_KIND
     elif self.__is_full_house():
-      if num_ace == 3 and self.row_num is RowNumber.TWO:
-        points = 2
+      if self.row_num is RowNumber.TWO:
+        if num_ace == 3:
+          points = 4
+        else:
+          points = 2
+      if self.row_num is RowNumber.THREE:
+        if num_ace == 3:
+          points = 2
+        else:
+          points = 1
       self.ranking = Ranking.FULL_HOUSE
     elif self.__is_flush():
       self.ranking = Ranking.FLUSH
     elif self.__is_straight():
       self.ranking = Ranking.STRAIGHT
     elif self.__is_three_kind():
-      if num_ace == 3:
-        if self.row_num is RowNumber.ONE:
+      if self.row_num is RowNumber.ONE:
+        if num_ace == 3:
           points = 6
-        elif self.row_num is RowNumber.TWO:
-          points = 2
+        else:
+          points = 5
       self.ranking = Ranking.THREE_KIND
     elif self.__is_two_pair():
       self.ranking = Ranking.TWO_PAIR

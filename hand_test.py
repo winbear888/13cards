@@ -2,6 +2,7 @@ import unittest
 from deck import Card, Suite
 from hand import Hand, HandStrategyEnum, HandStrategyObject
 from row import RowNumber, RowStrategy
+from adapter import string_lst_to_card_lst
 
 class HandTest(unittest.TestCase):
   def test_exception(self):
@@ -11,11 +12,11 @@ class HandTest(unittest.TestCase):
     self.assertRaises(Exception, Hand, three_kind_row_1, two_pair_row_3, one_pair_row_3)
 
   def test_hand_strategy_enum(self):
-    max_one_two = HandStrategyObject(HandStrategyEnum.MAX_ONE_TWO)
+    max_one_two = HandStrategyObject(HandStrategyEnum.MAX_MAX_ONE_TWO)
     self.assertEqual(max_one_two.row_orders, [RowNumber.ONE, RowNumber.TWO, RowNumber.THREE])
     self.assertEqual(max_one_two.row_strategies, [RowStrategy.MAX_RANK, RowStrategy.MAX, RowStrategy.MAX])
 
-    rank_three_two = HandStrategyObject(HandStrategyEnum.RANK_THREE_TWO)
+    rank_three_two = HandStrategyObject(HandStrategyEnum.RANK_MAX_THREE_TWO)
     self.assertEqual(rank_three_two.row_orders, [RowNumber.THREE, RowNumber.TWO, RowNumber.ONE])
     self.assertEqual(rank_three_two.row_strategies, [RowStrategy.MAX_RANK, RowStrategy.MAX_RANK, RowStrategy.MAX])
 
@@ -35,6 +36,12 @@ class HandTest(unittest.TestCase):
     
     self.assertEqual(hand2.settle(hand3), -6)
     self.assertEqual(hand3.settle(hand2), 6)
+  
+  def test_settle_2(self):
+    hand1 = Hand(string_lst_to_card_lst(["S3", "H3", "D3"]), string_lst_to_card_lst(["S2", "H2", "D2", "S5", "H5"]), string_lst_to_card_lst(["S4", "H4", "D4", "S6", "H6"]))
+
+    hand2 = Hand(string_lst_to_card_lst(["D4", "D3", "D2"]), string_lst_to_card_lst(["H6", "H5", "H4", "H3", "H2"]), string_lst_to_card_lst(["S6", "S5", "S4", "S3", "S2"]))
+    self.assertEqual(hand1.settle(hand2), -11)
 
 if __name__ == '__main__':
     unittest.main()

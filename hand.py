@@ -1,8 +1,6 @@
 from enum import Enum
 from deck import Card
 from row import Row, RowNumber, RowStrategy
-import adapter
-import hashlib
 
 class HandStrategyEnum(Enum):
   MAX_MAX_ONE_TWO = 1
@@ -91,18 +89,6 @@ class Hand:
 * row_two: {self.rows[RowNumber.TWO]}
 * row_three: {self.rows[RowNumber.THREE]}
 -- End Hand --"""
-
-  def __hash__(self) -> int:
-    str_1 = adapter.card_lst_to_stringify_lst(self.rows[RowNumber.ONE].raw_row)
-    str_2 = adapter.card_lst_to_stringify_lst(self.rows[RowNumber.TWO].raw_row)
-    str_3 = adapter.card_lst_to_stringify_lst(self.rows[RowNumber.THREE].raw_row)
-    string = str_1 + ";" + str_2 + ";" + str_3
-    # Create a SHA-256 hash object
-    sha256 = hashlib.sha256()
-    # Update the hash with the input string
-    sha256.update(string.encode())
-    # Return the hexadecimal representation of the hash
-    return sha256.hexdigest()
 
   def beat_all(self, other):
     if self.__class__ == other.__class__:
