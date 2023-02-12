@@ -71,6 +71,9 @@ const CandidateRow = ({ candidate }) => {
       <div style={{display: "flex", justifyContent: "center"}}>{candidate.row_1.map((x, idx) => (<DisplayCard key={idx} name={x}></DisplayCard>))}</div>
       <div style={{display: "flex", justifyContent: "center"}}>{candidate.row_2.map((x, idx) => (<DisplayCard key={idx} name={x}></DisplayCard>))}</div>
       <div style={{display: "flex", justifyContent: "center"}}>{candidate.row_3.map((x, idx) => (<DisplayCard key={idx} name={x}></DisplayCard>))}</div>
+      <p style={{display: "flex", justifyContent: "center"}}>Row 1: Ranking = {candidate.row_1_ranking}, Points = {candidate.row_1_points}</p>
+      <p style={{display: "flex", justifyContent: "center"}}>Row 2: Ranking = {candidate.row_2_ranking}, Points = {candidate.row_2_points}</p>
+      <p style={{display: "flex", justifyContent: "center"}}>Row 3: Ranking = {candidate.row_3_ranking}, Points = {candidate.row_3_points}</p>
     </div>
 
   )

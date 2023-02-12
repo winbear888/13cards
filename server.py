@@ -64,4 +64,4 @@ def candidates_get(uid):
   return jsonify({'message': msg, 'candidate_list': top_ten_dict[uid]}) if has_candidates else jsonify({'message': msg})
 
 if __name__ == '__main__':
-    app.run()
+  app.run()
