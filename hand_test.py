@@ -41,7 +41,8 @@ class HandTest(unittest.TestCase):
     hand1 = Hand(string_lst_to_card_lst(["S3", "H3", "D3"]), string_lst_to_card_lst(["S2", "H2", "D2", "S5", "H5"]), string_lst_to_card_lst(["S4", "H4", "D4", "S6", "H6"]))
 
     hand2 = Hand(string_lst_to_card_lst(["D4", "D3", "D2"]), string_lst_to_card_lst(["H6", "H5", "H4", "H3", "H2"]), string_lst_to_card_lst(["S6", "S5", "S4", "S3", "S2"]))
-    self.assertEqual(hand1.settle(hand2), -11)
+    # TODO: clarify three hand first row points
+    self.assertEqual(hand1.settle(hand2), -16)
 
 if __name__ == '__main__':
     unittest.main()

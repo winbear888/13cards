@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const Card = ({ id, selected, setSelected, name }) => {
+const Card = ({ id, selected, setSelected, name, color }) => {
   const handleClick = () => {
     setSelected(prevSelected => {
       if (prevSelected.includes(id)) {
@@ -18,7 +18,8 @@ const Card = ({ id, selected, setSelected, name }) => {
         backgroundColor: selected.includes(id) ? "green" : "white",
         width: "70px",
         height: "100px",
-        border: "1px solid black"
+        border: "1px solid black",
+        color: color
       }}
       onClick={handleClick}
     >
@@ -42,6 +43,13 @@ const DisplayCard = ({ name }) => {
     "14": "A",
   }
 
+  const suitsColor = {
+    "S": "black", 
+    "C:": "black", 
+    "H": "red", 
+    "D": "red"
+  }
+
   const displayName = (name) => {
     let suite = suiteDict[name[0]]
     let num = name.slice(1)
@@ -56,7 +64,8 @@ const DisplayCard = ({ name }) => {
         backgroundColor: "white",
         width: "70px",
         height: "100px",
-        border: "1px solid black"
+        border: "1px solid black",
+        color: suitsColor[name[0]]
       }}
     >
       {displayName(name)}
@@ -82,7 +91,7 @@ const CandidateRow = ({ candidate }) => {
 
 const Deck = () => {
   const deck = [];
-  const suits = ["♠️", "♣️", "❤️", "♦️"];
+  const suits = ["♠️", "❤️", "♦️", "♣️"];
   const values = [
     "A",
     "2",
@@ -98,61 +107,24 @@ const Deck = () => {
     "Q",
     "K"
   ];
-
+  const suitsColor = {
+    "♠️": "black", 
+    "♣️:": "black", 
+    "❤️": "red", 
+    "♦️": "red"
+  }
   for (let i = 0; i < suits.length; i++) {
     for (let j = 0; j < values.length; j++) {
       deck.push({
         id: values[j] + suits[i],
-        name: values[j] + suits[i]
+        name: values[j] + suits[i],
+        color: suitsColor[suits[i]]
       });
     }
   }
 
   const [selected, setSelected] = useState([]);
-  const tempCandidates = [        {
-    "avg": 32.9063670411985,
-    "row_1": [
-        "C4",
-        "C3",
-        "C2"
-    ],
-    "row_2": [
-        "H6",
-        "H5",
-        "H4",
-        "H3",
-        "H2"
-    ],
-    "row_3": [
-        "S6",
-        "S5",
-        "S4",
-        "S3",
-        "S2"
-    ]
-},
-{
-    "avg": 21.083645443196005,
-    "row_1": [
-        "H2",
-        "C2",
-        "H5"
-    ],
-    "row_2": [
-        "H4",
-        "C4",
-        "H3",
-        "C3",
-        "H6"
-    ],
-    "row_3": [
-        "S6",
-        "S5",
-        "S4",
-        "S3",
-        "S2"
-    ]
-}];
+
   const [uid, setUid] = useState("");
   const [message, setMessage] = useState("");
   const [candidates, setCandidates] = useState([]);
@@ -234,6 +206,7 @@ const Deck = () => {
                   selected={selected}
                   setSelected={setSelected}
                   name={card.name}
+                  color={card.color}
                 />
               ))}
           </div>

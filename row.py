@@ -108,7 +108,7 @@ class Row:
     if self.__is_straight_flush():
       if self.row_num is RowNumber.TWO:
         points = 14
-      if self.row_num is RowNumber.THREE:
+      elif self.row_num is RowNumber.THREE:
         points = 7
       else:
         raise Exception("straight flush can't be in the first row.")
@@ -119,7 +119,7 @@ class Row:
           points = 14
         else:
           points = 12
-      if self.row_num is RowNumber.THREE:
+      elif self.row_num is RowNumber.THREE:
         if num_ace == 4:
           points = 7
         else:
@@ -148,6 +148,7 @@ class Row:
         if num_ace == 3:
           points = 6
         else:
+          # TODO: clarify
           points = 5
       self.ranking = Ranking.THREE_KIND
     elif self.__is_two_pair():
