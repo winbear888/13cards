@@ -39,6 +39,9 @@ class Card:
         return self.suite < other.suite 
     return NotImplemented
 
+  def __hash__(self) -> int:
+    return self.suite.value * 100 + self.number
+
 def string_to_card(card_str: str) -> Card:
   """Converts a string to a card object."""
   char_to_suite = {"C": Suite.CLUBS, "D": Suite.DIAMONDS, "H": Suite.HEARTS, "S": Suite.SPADES}

@@ -11,3 +11,9 @@ flask --app server run
 cd frontend
 npm start
 ```
+
+## Input UI
+<img src="./screen_shots/input_ui.png" width="600" height="auto">
+
+## Example Candidates
+<img src="./screen_shots/output_candidates.png" width="600" height="auto">
