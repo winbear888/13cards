@@ -3,6 +3,7 @@ from deck import Card
 from row import Row, RowNumber, RowStrategy
 
 class HandStrategyEnum(Enum):
+  """Either maximize a given role or just maximize the rank of that row."""
   MAX_MAX_ONE_TWO = 1
   MAX_MAX_ONE_THREE = 2
   MAX_MAX_TWO_ONE = 3
@@ -36,12 +37,14 @@ class HandStrategyObject:
     self.row_strategies = self.__get_row_strategies()
   
   def __get_row_strategies(self):
+    """Returns the strategies for each row."""
     if self.hand_strategy_enum.value > 12:
       return [RowStrategy.MAX_RANK, RowStrategy.MAX_RANK, RowStrategy.MAX_RANK] if self.hand_strategy_enum.value > 19 else [RowStrategy.MAX_RANK, RowStrategy.MAX, RowStrategy.MAX_RANK]
     else:
       return [RowStrategy.MAX_RANK, RowStrategy.MAX_RANK, RowStrategy.MAX] if self.hand_strategy_enum.value > 6 else [RowStrategy.MAX_RANK, RowStrategy.MAX, RowStrategy.MAX]
   
   def __get_row_orders(self):
+    """Returns the row number to optimize in descending priority."""
     name = self.hand_strategy_enum.name
     parsed_name = "_".join(name.split("_")[2:])
     if parsed_name == "ONE_TWO":
